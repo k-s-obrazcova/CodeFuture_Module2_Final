@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Домашняя страница</title>
+</head>
+<body>
+    {% if messages %}
+        <h1>Оповещение</h1>
+        <ul class="messages">
+            {% for message in messages %}
+                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                    {{ message }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <h1>Домашняя страница</h1>
+    <ul>
+        <li>
+            <a href="{% url 'create_publishing_house_page' %}">Создание издательства</a>
+        </li>
+        <li>
+            <a href="{% url 'catalog_books_page' %}">Каталог всех книг</a>
+        </li>
+        {% if request.user.is_anonymous %}
+        <li>
+            <a href="{% url 'log in' %}">Авторизация</a>
+        </li>
+        <li>
+            <a href="{% url 'regis' %}">Регистрация</a>
+        </li>
+        {% else %}
+        <li>
+            <a href="{% url 'log out' %}">Выход из профиля</a>
+        </li>
+        {% endif %}
+        <li>
+            <a href="{% url 'anonim' %}">Страница доступная всем</a>
+        </li>
+        <li>
+            <a href="{% url 'auth' %}">Авторизованный доступ</a>
+        </li>
+        <li>
+            <a href="{% url 'add' %}">Добавление издательства</a>
+        </li>
+        <li>
+            <a href="{% url 'add_change' %}">Добавление и изменение издательства</a>
+        </li>
+        <li>
+            <a href="{% url 'change_only_telephone' %}">Изменить телефон</a>
+        </li>
+    </ul>
+</body>
+</html>

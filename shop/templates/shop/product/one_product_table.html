@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Информация о продукте {{ product.name }} в виде таблицы</title>
+    <link rel="stylesheet" href="{% static 'shop/css/bootstrap.css' %}">
+</head>
+<body>
+<h1 style="display: flex; justify-content: center; color: lightsalmon">Информация о {{ product.name }}</h1>
+<div class="p-3">
+    <table class="table table-bordered table-striped-columns table-dark">
+        <thead class="table-primary">
+        <tr>
+            <th>Название</th>
+            <th>Описание</th>
+            <th>Цена</th>
+            <th>Наличие на складе</th>
+            <th>Теги</th>
+            <th>Картинка</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{ product.name }}</td>
+            <td>
+                {% if product.description %}
+                    {{ product.description }}
+                {% else %}
+                    Описание отсутствует
+                {% endif %}
+            </td>
+            <td>{{ product.price }}</td>
+            <td>
+                <ul>
+                    {% for warehouse in product.warehouse.all %}
+                        <li>{{ warehouse.location }}</li>
+                    {% empty %}
+                        <li>Нет в наличии на складах</li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td>
+                <ul>
+                    {% for tag in product.tag.all %}
+                        <li>{{ tag.name }}</li>
+                    {% empty %}
+                        <li>Нет актуальных тегов</li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td>
+                {% if product.photo %}
+                    <img src="{{ product.photo.url }}" alt="..."
+                         style="max-width: 400px; max-height: 400px;object-fit: contain; border-radius: 50%">
+                {% else %}
+                    <img src="{% static 'shop/image/no_photo.jpg' %}" alt="..."
+                         style="max-width: 400px; max-height: 400px;object-fit: contain;">
+                {% endif %}
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+<a href="{% url 'list_product_filter' %}" class="btn btn-outline-danger">Обратно к каталогу</a>
+</div>
+</body>
+</html>

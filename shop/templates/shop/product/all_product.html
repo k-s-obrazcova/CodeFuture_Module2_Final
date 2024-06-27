@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Список товаров с заказами</title>
+    <link rel="stylesheet" href="{% static 'shop/css/bootstrap.css' %}">
+</head>
+<body>
+<table class="table">
+    <tbody>
+    {% for product in list_product %}
+        <tr>
+            <td>
+                <div class="row">
+                    <div class="col col-3">
+                        {{ product.name }} - {{ product.price }} руб.
+                    </div>
+                    <div class="col col-3">
+                        {{ product.description }}
+                    </div>
+                    <div class="col col-6">
+                        Заказы:
+                        {% for ord in product.pos_order_set.all %}
+                            <ul>
+                                <li>
+                                    #{{ ord.order.pk }} {{ ord.order.date_create }} - {{ ord.order.buyer_firstname }}
+                                    ({{ ord.count }} шт.)
+                                </li>
+                            </ul>
+                        {% empty %}
+                            <p>
+                                Никто еще не купил этот товар :(
+                            </p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>
